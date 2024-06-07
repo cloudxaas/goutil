@@ -1,4 +1,4 @@
-package goutilmath
+package cxutilmath
 
 func Min[T comparable](a, b T) T {
 	if a < b {
