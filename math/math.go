@@ -1,14 +1,20 @@
 package cxutilmath
 
-func Min[T comparable](a, b T) T {
-	if a < b {
+import (
+	"golang.org/x/exp/constraints"
+)
+
+// Max returns the greater of two values of an ordered type.
+func Max[T constraints.Ordered](a, b T) T {
+	if a > b {
 		return a
 	}
 	return b
 }
 
-func Max[T comparable](a, b T) T {
-	if a > b {
+// Min returns the lesser of two values of an ordered type.
+func Min[T constraints.Ordered](a, b T) T {
+	if a < b {
 		return a
 	}
 	return b
