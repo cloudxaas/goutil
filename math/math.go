@@ -20,11 +20,12 @@ func Min[T constraints.Ordered](a, b T) T {
     return b
 }
 
-// IsWithinDifference checks if the difference between a and b is not more than c.
-// It is generic over any ordered type.
-func IsWithinDifference[T constraints.Ordered](a, b, c T) bool {
-    if a > b {
-        return a-b <= c
+// IsWithinThreshold checks if the absolute difference between a and b is not more than threshold.
+// It is generic over numeric types (integers and floats).
+func IsWithinThreshold[T constraints.Float | constraints.Integer](a, b, threshold T) bool {
+    diff := a - b
+    if diff < 0 {
+        diff = -diff
     }
-    return b-a <= c
+    return diff <= threshold
 }
