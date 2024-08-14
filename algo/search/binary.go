@@ -1,6 +1,4 @@
-cxutilalgosearch
-
-package search
+package cxutilalgosearch
 
 import "bytes"
 
