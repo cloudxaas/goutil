@@ -4,7 +4,7 @@ import (
     "testing"
 )
 
-func TestBinarySearchInt(t *testing.T) {
+func TestBinaryInt(t *testing.T) {
     tests := []struct {
         name     string
         arr      []int
@@ -20,14 +20,14 @@ func TestBinarySearchInt(t *testing.T) {
 
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
-            if got := BinarySearchInt(tt.arr, tt.target); got != tt.expected {
-                t.Errorf("BinarySearchInt() = %v, want %v", got, tt.expected)
+            if got := BinaryInt(tt.arr, tt.target); got != tt.expected {
+                t.Errorf("BinaryInt() = %v, want %v", got, tt.expected)
             }
         })
     }
 }
 
-func TestBinarySearchString(t *testing.T) {
+func TestBinaryString(t *testing.T) {
     tests := []struct {
         name     string
         arr      []string
@@ -43,14 +43,14 @@ func TestBinarySearchString(t *testing.T) {
 
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
-            if got := BinarySearchString(tt.arr, tt.target); got != tt.expected {
-                t.Errorf("BinarySearchString() = %v, want %v", got, tt.expected)
+            if got := BinaryString(tt.arr, tt.target); got != tt.expected {
+                t.Errorf("BinaryString() = %v, want %v", got, tt.expected)
             }
         })
     }
 }
 
-func TestBinarySearchBytes(t *testing.T) {
+func TestBinaryBytes(t *testing.T) {
     tests := []struct {
         name     string
         arr      [][]byte
@@ -66,17 +66,17 @@ func TestBinarySearchBytes(t *testing.T) {
 
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
-            if got := BinarySearchBytes(tt.arr, tt.target); got != tt.expected {
-                t.Errorf("BinarySearchBytes() = %v, want %v", got, tt.expected)
+            if got := BinaryBytes1(tt.arr, tt.target); got != tt.expected {
+                t.Errorf("BinaryBytes() = %v, want %v", got, tt.expected)
             }
-            if got := BinarySearchBytesZeroAlloc(tt.arr, tt.target); got != tt.expected {
-                t.Errorf("BinarySearchBytesZeroAlloc() = %v, want %v", got, tt.expected)
+            if got := BinaryBytes(tt.arr, tt.target); got != tt.expected {
+                t.Errorf("BinaryBytesZeroAlloc() = %v, want %v", got, tt.expected)
             }
         })
     }
 }
 
-func BenchmarkBinarySearchInt(b *testing.B) {
+func BenchmarkBinaryInt(b *testing.B) {
     arr := make([]int, 1000)
     for i := range arr {
         arr[i] = i
@@ -84,20 +84,20 @@ func BenchmarkBinarySearchInt(b *testing.B) {
     b.ResetTimer()
     b.ReportAllocs()
     for i := 0; i < b.N; i++ {
-        BinarySearchInt(arr, 500)
+        BinaryInt(arr, 500)
     }
 }
 
-func BenchmarkBinarySearchString(b *testing.B) {
+func BenchmarkBinaryString(b *testing.B) {
     arr := []string{"apple", "banana", "cherry", "date", "elderberry"}
     b.ResetTimer()
     b.ReportAllocs()
     for i := 0; i < b.N; i++ {
-        BinarySearchString(arr, "cherry")
+        BinaryString(arr, "cherry")
     }
 }
 
-func BenchmarkBinarySearchBytes(b *testing.B) {
+func BenchmarkBinaryBytes(b *testing.B) {
     arr := [][]byte{
         []byte("apple"),
         []byte("banana"),
@@ -109,11 +109,11 @@ func BenchmarkBinarySearchBytes(b *testing.B) {
     b.ResetTimer()
     b.ReportAllocs()
     for i := 0; i < b.N; i++ {
-        BinarySearchBytes(arr, target)
+        BinaryBytes(arr, target)
     }
 }
 
-func BenchmarkBinarySearchBytesZeroAlloc(b *testing.B) {
+func BenchmarkBinaryBytesZeroAlloc(b *testing.B) {
     arr := [][]byte{
         []byte("apple"),
         []byte("banana"),
@@ -125,6 +125,7 @@ func BenchmarkBinarySearchBytesZeroAlloc(b *testing.B) {
     b.ResetTimer()
     b.ReportAllocs()
     for i := 0; i < b.N; i++ {
-        BinarySearchBytesZeroAlloc(arr, target)
+        BinaryBytes(arr, target)
     }
 }
+~                                      
