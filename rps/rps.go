@@ -4,7 +4,6 @@ import (
     "sync/atomic"
     "time"
     "syscall"
-
     "github.com/panjf2000/ants/v2"
 )
 
@@ -19,9 +18,12 @@ type Counter struct {
 
 // New creates a new RPS counter with the given identifier
 func New(identifier string) *Counter {
+    if len(identifier) > 20 {
+        identifier = identifier[:20]
+    }
     return &Counter{
         done:       make(chan struct{}),
-        buffer:     make([]byte, 128), // Increased buffer size to accommodate identifier
+        buffer:     make([]byte, 32), // Increased buffer size to accommodate identifier
         identifier: identifier,
     }
 }
@@ -85,10 +87,30 @@ func (c *Counter) appendInt(buf []byte, x int64) []byte {
 
 // appendUint appends an unsigned integer to a byte slice without allocations
 func (c *Counter) appendUint(buf []byte, x uint64) []byte {
-    if x < 10 {
-        return append(buf, byte(x)+'0')
+    // Handle 0 specially
+    if x == 0 {
+        return append(buf, '0')
     }
-    return c.appendUint(append(buf, byte(x%10)+'0'), x/10)
+
+    // Find the length of the number
+    length := 0
+    for temp := x; temp > 0; temp /= 10 {
+        length++
+    }
+
+    // Extend the buffer
+    start := len(buf)
+    for i := 0; i < length; i++ {
+        buf = append(buf, '0')
+    }
+
+    // Fill in the digits in reverse order
+    for i := start + length - 1; i >= start; i-- {
+        buf[i] = byte(x%10) + '0'
+        x /= 10
+    }
+
+    return buf
 }
 
 // stdout is a wrapper for os.Stdout that doesn't allocate
