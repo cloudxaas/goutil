@@ -3,7 +3,7 @@ package rps
 import (
     "sync/atomic"
     "time"
-    "unsafe"
+    "syscall"
 
     "github.com/panjf2000/ants/v2"
 )
